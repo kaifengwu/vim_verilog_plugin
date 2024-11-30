@@ -118,7 +118,7 @@ function! ShowVariablePopup()"展示变量信息
         elseif g:variable_message_IO !=#  g:word
             let g:variable_IO = {}
             let g:variable_message_IO = g:word
-            silent! execute '!~/.vim/plugin/verilog_function/verilog_variable_message'  expand('%') . ' ' . line('.') . ' ' . g:word
+            silent! execute '!~/.vim/plugin/verilog_function/plugin/verilog_variable_message'  expand('%') . ' ' . line('.') . ' ' . g:word
             silent! execute '!sed -i "1i ' . "Your Note: " . shellescape(g:external_variable_property[g:word]) . '" ./variable_message_list'
             let g:variable_IO = readfile("./variable_message_list")
             silent! execute '!rm variable_message_list'
@@ -166,7 +166,7 @@ function! ShowPopup()
 endfunction
 
 function! LoadQuickfixMessage()
-    silent! execute '!~/.vim/plugin/verilog_function/verilog_quickfix'  expand('%') . ' ' .g:ERROR_MODULE
+    silent! execute '!~/.vim/plugin/verilog_function/plugin/verilog_quickfix'  expand('%') . ' ' .g:ERROR_MODULE
     silent! call LoadErrorMessage()                                                                                                                                                     
     silent! redraw!                                                                                                                                                                     
     silent! call LoadMoudlesFromFile(0)    

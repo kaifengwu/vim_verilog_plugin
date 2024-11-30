@@ -30,8 +30,8 @@ function! LoadMoudlesFromFile(mode)"抓模块的函数和变量
         let g:external_variable_property = {}
         let g:external_module_list = []
         let g:external_module_IO = {}
-        silent! execute '!~/.vim/plugin/verilog_function/verilog_module ' . expand('%') 
-        silent! execute '!~/.vim/plugin/verilog_function/verilog_variable ' . expand('%') . ' ' . line('.')
+        silent! execute '!~/.vim/plugin/verilog_function/plugin/verilog_module ' . expand('%') 
+        silent! execute '!~/.vim/plugin/verilog_function/plugin/verilog_variable ' . expand('%') . ' ' . line('.')
         silent! redraw!
         if !filereadable("./tmp")
             return
@@ -68,7 +68,7 @@ function! LoadMoudlesFromFile(mode)"抓模块的函数和变量
 "变量提取
     if a:mode == 1
         let g:external_variable_property = {}
-        silent! execute '!~/.vim/plugin/verilog_function/verilog_variable ' . expand('%') . ' ' . line('.')
+        silent! execute '!~/.vim/plugin/verilog_function/plugin/verilog_variable ' . expand('%') . ' ' . line('.')
         silent! redraw!
     endif
 
