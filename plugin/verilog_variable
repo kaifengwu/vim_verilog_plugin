@@ -14,16 +14,16 @@ if test -n "$start_line" -a -n "$end_line"
     sed -n "$start_line,$end_line p" $input_file\
     | awk '/module/{flag=1;next} /endmodule/{flag=0} flag' \
     | grep -E '^\s*(inout|input|output|reg|wire)' \
-    | sed -E 's/(inout|input|output|reg|wire)//g' \
-    | sed -E 's/^\s*\/\*.*\*\///g'\
+    | sed -E 's/^\s*(inout|input|output|reg|wire)\s*(.*)$/\2/g' \
     | sed -E 's/(\[.*\])//g' \
-    | sed -E 's/^\s*(inout|input|output|reg|wire)//g' \
     | tr -s ';,' '\n' \
-    | awk '{print $1}' \
     | sort \
     | sed -E 's/^\s*\/\*.*\*\///g' \
     | uniq -c \
-    | awk '{print $2}'>tmp_variable
+    | sed -E 's/^\s*[0-9]+\s*//g'\
+    | sed -E 's/^\s*(\w+)\s*(\/\*.*\*\/)/\1\2/g'>tmp_variable
+
+    #| awk '{print $2}'>tmp_variable
      
     #爬取参数
     sed -n "$start_line,$end_line p" $input_file\
@@ -45,7 +45,7 @@ if test -n "$start_line" -a -n "$end_line"
     | sed -E 's/(inout|input|output|reg|wire)//g' \
     | sed -E 's/^\s*\/\*.*\*\///g'\
     | sort | awk '{$1=$1}1' \
-    | grep '\[' | sed -E 's/\[.*\]//g' \
+    | grep '\[' | sed -E 's/^\s*\[(.*)\]\s*(\w+)/\2\/\*(\1)-\*\//g' \
     | sed -E 's/( )+//g' \
     | sed -E 's/(^[A-Za-z$0-9_]+)/\1[:]/g' \
     | tr -s ',;' '\n'>>tmp_variable
@@ -53,25 +53,4 @@ if test -n "$start_line" -a -n "$end_line"
     #爬取模块名称
     sed -n "$start_line p" $input_file\
         | sed -E 's/^\s*module\s*(\w+)\s*(\()?/\1/g'>>tmp_module_name
-else
-cat $input_file \
-    | awk '/module/{flag=1;next} /endmodule/{flag=0} flag' \
-    | grep -E '^\s*(inout|input|output|reg|wire)' | sed -E 's/(inout|input|output|reg|wire)//g' \
-    | sed -E 's/(\[.*\])//g' \
-    | tr -s ';,[]' '\n' \
-    | awk '{print $1}' \
-    | sort \
-    | sed -E 's/^\s*\/\*.*\*\///g'\
-    | uniq -c \
-    | awk '{print $2}'>tmp_variable
-
-cat $input_file \
-     | awk '/module/{flag=1;next} /endmodule/{flag=0} flag' \
-     | grep -E '^\s*(inout|input|output|reg|wire)' \
-     | sed -E 's/(inout|input|output|reg|wire)//g' \
-     | sort | awk '{$1=$1}1' \
-     | grep '\[' | sed -E 's/\[.*\]//g' \
-     | sed -E 's/( )+//g' \
-     | sed -E 's/([A-Za-z$_0-9]+)/\1[:]/g' \
-     | tr -s ',;' '\n'>>tmp_variable
 end

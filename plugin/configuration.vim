@@ -25,6 +25,9 @@ autocmd FileType * inoremap <C-l> <ESC>:call JumpToClosingParen(1)<CR>la
 autocmd FileType * map <C-l> :call JumpToClosingParen(1)<CR>l
 autocmd FileType * inoremap <C-h> <ESC>:call JumpToClosingParen(0)<CR>li
 autocmd FileType * map <C-h> :call JumpToClosingParen(0)<CR>l
+"以下注释掉的内容放到.vimrc里面去
+"设置更新时间，防止光标一直跳转
+"set updatetime=500
 "使用alt键恢复部分普通模式功能
 
 "插入模式下按下alt恢复hjkl的上下左右功能
