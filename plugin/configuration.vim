@@ -53,7 +53,14 @@ autocmd FileType * map <C-h> :call JumpToClosingParen(0)<CR>l
 "execute "set <M-w>=\ew"
 "inoremap <M-w> <ESC>ebdei
 "nnoremap <M-w> <ESC>ebde
-
+"注释
+"noremap <C-x> <ESC>^:call Annotate()<cr><ESC>
+"inoremap <C-x> <ESC>^:call Annotate()<cr><ESC>
+"智能换行
+"inoremap <C-j> <ESC>^$:call Newline()<cr><ESC>
+"noremap <C-j> <ESC>^$:call Newline()<cr><ESC>
+"autocmd FileType * set guicursor=n-v-c:block,i-ci-ve:ver5,r-cr-o:hor20
+"
 "----------------------Verilog 相关的配套设置-----------------------------
 
 autocmd FileType verilog setlocal shiftwidth=4 softtabstop=4
@@ -85,6 +92,18 @@ autocmd FileType verilog inoremap <silent><expr> <CR>
     \ TriggerAutoComplete(0) ?  "\<C-y>\<space>" : 
     \coc#pum#visible() ? coc#_select_confirm()
     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+"如果你不使用coc-nvim,把上面的映射注释掉然后改成底下的这几个
+"autocmd FileType verilog inoremap <silent><expr> <TAB>
+    "\ TriggerAutoComplete(0) ? "\<C-n>" : "\<Tab>" 
+
+"autocmd FileType verilog inoremap <expr> <S-TAB> 
+    "\ TriggerAutoComplete(0) ? "\<C-p>" : "\<C-h>"
+
+"autocmd FileType verilog inoremap <silent><expr> <CR> 
+    "\ TriggerAutoComplete(0) ?  "\<C-y>\<space>" : "\<CR>"
+
+
 
 autocmd CursorHold *.v silent call AutoLoadCompeletion()
             \| call ShowPopup() 
