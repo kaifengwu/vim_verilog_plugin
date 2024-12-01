@@ -1,3 +1,4 @@
+"---------------------------辅助配置------------------------------
 "智能按键操作
 autocmd FileType * inoremap } <ESC>:call Quotation4()<cr><ESC>
 
@@ -48,6 +49,7 @@ autocmd FileType * inoremap <M-p> <ESC>pa
 autocmd FileType * execute "set <M-w>=\ew"
 autocmd FileType * inoremap <M-w> <ESC>ebdei
 autocmd FileType * nnoremap <M-w> <ESC>ebde
+
 "----------------------Verilog 相关的配套设置-----------------------------
 
 autocmd FileType verilog setlocal shiftwidth=4 softtabstop=4
@@ -60,7 +62,7 @@ autocmd FileType verilog inoremap <C-e> <ESC>:call ModuleChange()<CR>
 
 autocmd FileType verilog map <C-b> :call Verilogformat()<CR>
 autocmd FileType verilog inoremap <C-b> <ESC>:call Verilogformat()<CR>
-autocmd VimEnter *.v : LoadCompletionFile /home/kaifeng/.vim/plugin/verilog_function/verilog.txt
+"autocmd VimEnter *.v : LoadCompletionFile /home/?/.vim/plugin/verilog_function/verilog.txt
 autocmd VimEnter *.v : call LoadMoudlesFromFile(0)
 "设置补全操作快捷键
 autocmd FileType verilog inoremap <silent><expr> <TAB>
@@ -86,3 +88,22 @@ autocmd FileType verilog map <C-k> <ESC>:call JumpToModule(0)<cr>zz
 autocmd FileType verilog inoremap <C-k> <ESC>:call JumpToModule(0)<cr>zz
 
 
+"补全相关设置
+ autocmd FileType verilog set autowrite
+ autocmd FileType verilog set wildmode=full
+ autocmd FileType verilog set wildmenu
+ autocmd FileType verilog set completeopt=menuone,noinsert,noselect,preview
+ autocmd FileType verilog set pumheight=10
+
+" 设置补全菜单背景为灰色，前景为黑色
+ autocmd FileType verilog highlight Pmenu ctermbg=black ctermfg=grey
+
+" 设置补全菜单中选中项的背景为红色，前景为白色
+ autocmd FileType verilog highlight PmenuSel ctermbg=red ctermfg=white
+
+" 设置滚动条背景为浅灰色
+ autocmd FileType verilog highlight PmenuSbar ctermbg=lightgray
+
+" 设置滚动条的滚动指示部分为深灰色
+ autocmd FileType verilog highlight PmenuThumb ctermbg=darkgray
+"---------------------------------------------------------------------------
