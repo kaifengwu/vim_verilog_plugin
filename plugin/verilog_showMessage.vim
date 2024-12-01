@@ -143,11 +143,11 @@ function! ShowVariablePopup()"展示变量信息
     elseif has_key(g:external_module_IO, g:word) && getline('.')[col('.') - 1] =~ '\w'
         let g:variable_message_IO = g:word
         let g:JUMP = 1
-        let l:message = "push <C-j>: jump to module " . g:word . " |  then push <C-k> will come back here"
+        let l:message = 'push <C-j>: jump to module ' . g:word . '|| push <C-k> will come back here'
         call popup_create(l:message,{
                     \ 'line': 'cursor+1',
                     \ 'col': 'cursor+4',
-                    \ 'maxwidth': 60,
+                    \ 'maxwidth': 50,
                     \ 'maxheight': 10,
                     \ 'minheight': 1,
                     \ 'minwidth': 30,

@@ -89,7 +89,7 @@ function! LoadMoudlesFromFile(mode)"抓模块的函数和变量
         endif
     endfor
     let g:external_variable_list = uniq(sort(l:words))
-    silent! execute '!rm tmp*'
+    "silent! execute '!rm tmp*'
 endfunction
 
 
