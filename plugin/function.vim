@@ -68,7 +68,7 @@ function! Quotation4()
 endfunction
 
 function! Window()
-    echo &filetype
+    "echo &filetype
     if &filetype == 'qf'
         cclose
     else
@@ -77,6 +77,10 @@ function! Window()
         copen 
         redraw!
     endif
+    let l:popup_handles = popup_list()
+    for handle in l:popup_handles
+            "call popup_clear(handle)
+    endfor
 endfunction       
 
 function! JumpToClosingParen(mode)

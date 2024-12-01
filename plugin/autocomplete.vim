@@ -5,11 +5,12 @@ let g:external_variable_property = {} "变量属性
 let g:external_variable_from = {} "变量来源列表
 let g:external_variable_to = {}  "变量去向列表
 let g:external_module_IO = {} "模块端口
-let g:module_now = [] "光标当前所在模块
-let g:module_complete = [] "补全列表模块
+let g:module_now = '' "光标当前所在模块
+let g:module_complete = '' "补全列表模块
 
 
 function! s:LoadWordsFromFile(filepath)"抓常用词的函数
+    silent! execute set filetype=verilog
     let g:external_word_list = []
     if !filereadable(a:filepath)
         echo "文件未找到:"  . a:filepath
@@ -24,8 +25,6 @@ function! s:LoadWordsFromFile(filepath)"抓常用词的函数
 endfunction
 
 function! LoadMoudlesFromFile(mode)"抓模块的函数和变量
-
-
     if a:mode == 0
         let g:external_variable_property = {}
         let g:external_module_list = []
@@ -63,7 +62,6 @@ function! LoadMoudlesFromFile(mode)"抓模块的函数和变量
             endif
         endfor
         let g:external_module_list = uniq(sort(l:words))
-        silent! execute '!rm tmp_module_pa'
     endif
 "变量提取
     if a:mode == 1
@@ -192,8 +190,8 @@ function! TriggerAutoComplete(mode)
                 call complete(l:start+1,l:matches)
             endif
             return 1
-        else 
-            return 0 "没有匹配内容
+        "else 
+            "return 0 "没有匹配内容
         endif
     else
         return 0 "光标位于第一列
@@ -297,8 +295,10 @@ endfunction
 
 function! AutoLoadCompeletion()
     call GetModuleDeclaration()
-    if g:module_now != g:module_complete "判断光标是否切换了模块
-        call LoadMoudlesFromFile(1)
+    if g:module_now != '' && g:module_complete != ''
+        if g:module_now != g:module_complete "判断光标是否切换了模块
+            call LoadMoudlesFromFile(1)
+        endif
     endif
 endfunction
 

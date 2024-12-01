@@ -1,7 +1,8 @@
 #!/bin/fish
 set input_file $argv[1]
 set line_number $argv[2]
-
+touch tmp_module_name
+touch tmp_variable
 #爬取光标所在模块中的变量
 set target_line (sed -n "$line_number p" $input_file)
 set start_line (sed -n "1,$line_number p" $input_file | tac | grep -m 1 -n 'module' | cut -d: -f1)

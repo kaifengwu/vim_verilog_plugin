@@ -1,5 +1,9 @@
 #!/bin/fish
 set input_file $argv[1]
+touch tmp
+touch tmp2
+touch tmp3 
+touch tmp_module_pa
 cat $input_file > tmp
 #爬取无参数模块
 perl -0777 -ne ' 

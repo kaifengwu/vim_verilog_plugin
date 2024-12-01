@@ -26,29 +26,33 @@ autocmd FileType * map <C-l> :call JumpToClosingParen(1)<CR>l
 autocmd FileType * inoremap <C-h> <ESC>:call JumpToClosingParen(0)<CR>li
 autocmd FileType * map <C-h> :call JumpToClosingParen(0)<CR>l
 "使用alt键恢复部分普通模式功能
-"上下左右
-autocmd FileType * execute "set <M-h>=\eh"
-autocmd FileType * inoremap <M-h> <Left> 
 
-autocmd FileType * execute "set <M-j>=\ej"
-autocmd FileType * inoremap <M-j> <Down> 
+"插入模式下按下alt恢复hjkl的上下左右功能
+"execute "set <M-h>=\eh"
+"inoremap <M-h> <Left> 
 
-autocmd FileType * execute "set <M-k>=\ek"
-autocmd FileType * inoremap <M-k> <Up> 
+"execute "set <M-j>=\ej"
+"inoremap <M-j> <Down> 
 
-autocmd FileType * execute "set <M-l>=\el"
-autocmd FileType * inoremap <M-l> <Right> 
+"execute "set <M-k>=\ek"
+"inoremap <M-k> <Up> 
+
+"execute "set <M-l>=\el"
+"inoremap <M-l> <Right> 
+
 "o键打开下一行
-autocmd FileType * execute "set <M-o>=\eo"
-autocmd FileType * inoremap <M-o> <ESC>o
-autocmd FileType * noremap <M-o> <ESC>o
-"黏贴
-autocmd FileType * execute "set <M-p>=\ep"
-autocmd FileType * inoremap <M-p> <ESC>pa
+"execute "set <M-o>=\eo"
+"inoremap <M-o> <ESC>o
+"noremap <M-o> <ESC>o
 
-autocmd FileType * execute "set <M-w>=\ew"
-autocmd FileType * inoremap <M-w> <ESC>ebdei
-autocmd FileType * nnoremap <M-w> <ESC>ebde
+"黏贴
+"execute "set <M-p>=\ep"
+"inoremap <M-p> <ESC>pa
+
+"删除光标所在位置单词
+"execute "set <M-w>=\ew"
+"inoremap <M-w> <ESC>ebdei
+"nnoremap <M-w> <ESC>ebde
 
 "----------------------Verilog 相关的配套设置-----------------------------
 
@@ -56,13 +60,15 @@ autocmd FileType verilog setlocal shiftwidth=4 softtabstop=4
 "在保存 .v 文件时运行 verilator 并加载错误到 Quickfix 窗口
 autocmd BufWritePost *.v silent call LoadQuickfixMessage()
 
-let g:ERROR_MODULE = 1
+au BufRead,BufNewFile *.v set filetype=verilog
 autocmd FileType verilog map <C-e> :call ModuleChange()<CR>
 autocmd FileType verilog inoremap <C-e> <ESC>:call ModuleChange()<CR>
 
 autocmd FileType verilog map <C-b> :call Verilogformat()<CR>
 autocmd FileType verilog inoremap <C-b> <ESC>:call Verilogformat()<CR>
-"autocmd VimEnter *.v : LoadCompletionFile /home/?/.vim/plugin/verilog_function/verilog.txt
+"把这一行的问号？换成你vim所在文件夹的绝对路径
+"autocmd VimEnter *.v : LoadCompletionFile /?/.vim/plugin/verilog_function/verilog.txt
+
 autocmd VimEnter *.v : call LoadMoudlesFromFile(0)
 "设置补全操作快捷键
 autocmd FileType verilog inoremap <silent><expr> <TAB>
@@ -82,8 +88,8 @@ autocmd FileType verilog inoremap <silent><expr> <CR>
 
 autocmd CursorHold *.v silent call AutoLoadCompeletion()
             \| call ShowPopup() 
-autocmd FileType verilog inoremap <silent><expr> <C-j> g:jump? "<ESC>:call JumpToModule(1)<cr>zz" : "<ESC>^$:call Newline()<cr><ESC>"
-autocmd FileType verilog map <silent><expr> <C-j> g:jump? "<ESC>:call JumpToModule(1)<cr>zz" : "<ESC>^$:call Newline()<cr><ESC>"
+autocmd FileType verilog inoremap <silent><expr> <C-j> g:JUMP? "<ESC>:call JumpToModule(1)<cr>zz" : "<ESC>^$:call Newline()<cr><ESC>"
+autocmd FileType verilog map <silent><expr> <C-j> g:JUMP? "<ESC>:call JumpToModule(1)<cr>zz" : "<ESC>^$:call Newline()<cr><ESC>"
 autocmd FileType verilog map <C-k> <ESC>:call JumpToModule(0)<cr>zz
 autocmd FileType verilog inoremap <C-k> <ESC>:call JumpToModule(0)<cr>zz
 
