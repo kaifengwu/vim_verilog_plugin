@@ -22,7 +22,7 @@ set end_line (sed -n "$line_number,\$ p" $input_file | grep -m 1 -n 'endmodule' 
 set n 1
 set line (wc -l <./tmp_variable_message)
 set line (math $line + 1)
-
+set IO_message 0
 while test $n -lt $line 
   set -l line_tmp (sed -n "$n p" ./tmp_variable_message)
   if string match --regex --quiet '^[0-9]+:\.\w+\s*\(.*\)' -- "$line_tmp"
@@ -40,10 +40,18 @@ while test $n -lt $line
             set -l line (sed -n "$i p" $input_file)
             if test -n "$line"
                 set -l trimmed_line (string trim -- $line)
-                if string match --regex --quiet 'i \| o' -- "$trimmed_line"  
+                if string match --regex --quiet 'i\/o' -- "$trimmed_line" 
+                    if test $i -eq (math $line_number + $start_line - 1)
+                        set type "Inout"
+                        set arrow "|<-->"
+                        set IO_message 1
+                    end
+                end
+                if string match --regex --quiet 'i \| o' -- "$trimmed_line" && test $IO_message != 1 
                     if test $i != (math $line_number + $start_line - 1)
                         set type "Output"
                         set arrow "|-->"
+                        set IO_message 1
                     end
                 end
                 if string match --regex --quiet '^[[:alpha:]][[:alpha:]]*' -- "$trimmed_line"
@@ -63,6 +71,7 @@ end
 cat ./tmp_variable_message | head -n 1 >variable_message_list
 cat tmp_variable_message_2 | grep -E "\bOutput\b">>variable_message_list
 cat tmp_variable_message_2 | grep -E "\bInput\b">>variable_message_list
+cat tmp_variable_message_2 | grep -E "\bInout\b">>variable_message_list
 rm tmp_variable_message_2
 rm tmp_variable_message
 

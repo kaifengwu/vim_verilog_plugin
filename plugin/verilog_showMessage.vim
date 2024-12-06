@@ -8,7 +8,7 @@ let g:ERROR_MODULE_2 = 1
 function! LoadErrorMessage()"加载错误信息
     "清空错误信息
 
-    execute 'sign unplace *'
+    silent! execute 'sign unplace *'
     call clearmatches()
 
     let g:error_messages = {}
@@ -70,7 +70,7 @@ highlight pop ctermbg=black ctermfg=blue guibg=green guifg=black gui=bold,italic
 function! ShowErrorPopup()"展示错误信息
     let l:popup_handles = popup_list()
     for handle in l:popup_handles
-            call popup_clear(handle)
+            silent! call popup_clear(handle)
     endfor
     let l:filename = expand('%:t')
     let l:name = expand('%:p')
@@ -164,9 +164,9 @@ endfunction
 
 function! ShowPopup()
     if g:ERROR_MODULE == 1
-        call ShowErrorPopup()
+        silent! call ShowErrorPopup()
     elseif g:ERROR_MODULE == 0
-        call ShowVariablePopup()
+        silent! call ShowVariablePopup()
     endif
 endfunction
 
