@@ -1,10 +1,16 @@
 function! Annotate() 
-    let  l = expand('%:e')
-    if l =='c' || l == 'h' || l == 'json' || l =='v'
+    let l = &filetype
+    if l =='cpp' || l == 'h' || l == 'json' || l =='verilog' || l =='c' || l == 'scala'
         if getline('.')[col('.')-1] == '/' || getline('.')[col('.')] == '/'
             call feedkeys("xx",'n')
         else 
             call feedkeys("i//\<ESC>",'n')
+        endif
+    elseif l == 'conf' || l == 'fish'
+        if getline('.')[col('.')-1] == '#'
+            call feedkeys("x",'n')
+        else 
+            call feedkeys("i\#\<ESC>",'n')
         endif
     else
         if getline('.')[col('.')-1] == '"'
@@ -69,18 +75,20 @@ endfunction
 
 function! Window()
     "echo &filetype
+    let l:popup_handles = popup_list()
+    for handle in l:popup_handles
+            call popup_clear(handle)
+    endfor
     if &filetype == 'qf'
         cclose
     else
         echo "open"
-        execute 'cgetfile' '/tmp/verilator_output.txt'  
+        if &filetype == 'verilog'
+            execute 'cgetfile' '/tmp/verilator_output.txt'  
+        endif
         copen 
         redraw!
     endif
-    let l:popup_handles = popup_list()
-    for handle in l:popup_handles
-            "call popup_clear(handle)
-    endfor
 endfunction       
 
 function! JumpToClosingParen(mode)

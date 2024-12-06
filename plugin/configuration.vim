@@ -43,6 +43,10 @@ autocmd FileType * map <C-h> :call JumpToClosingParen(0)<CR>l
 "execute "set <M-l>=\el"
 "inoremap <M-l> <Right> 
 
+"imap <A-h> <Left>
+"imap <A-j> <Down>
+"imap <A-k> <Up>
+"imap <A-l> <Right>
 "o键打开下一行
 "execute "set <M-o>=\eo"
 "inoremap <M-o> <ESC>o
@@ -63,7 +67,8 @@ autocmd FileType * map <C-h> :call JumpToClosingParen(0)<CR>l
 "inoremap <C-j> <ESC>^$:call Newline()<cr><ESC>
 "noremap <C-j> <ESC>^$:call Newline()<cr><ESC>
 "autocmd FileType * set guicursor=n-v-c:block,i-ci-ve:ver5,r-cr-o:hor20
-"
+"以上内容注释掉之后放到.vimrc里面
+
 "----------------------Verilog 相关的配套设置-----------------------------
 
 autocmd FileType verilog setlocal shiftwidth=4 softtabstop=4
@@ -81,6 +86,7 @@ autocmd FileType verilog inoremap <C-b> <ESC>:call Verilogformat()<CR>
 
 autocmd VimEnter *.v : call LoadMoudlesFromFile(0)
 "设置补全操作快捷键
+"如果你使用coc-nvim,使用底下的这几个映射
 autocmd FileType verilog inoremap <silent><expr> <TAB>
     \ TriggerAutoComplete(0) ? "\<C-n>" : 
     \ coc#pum#visible()  ? coc#pum#next(1):
@@ -125,13 +131,14 @@ autocmd FileType verilog inoremap <C-k> <ESC>:call JumpToModule(0)<cr>zz
 
 " 设置补全菜单背景为灰色，前景为黑色
  autocmd FileType verilog highlight Pmenu ctermbg=black ctermfg=grey
-
+ highlight Pmenu ctermbg=black ctermfg=grey
 " 设置补全菜单中选中项的背景为红色，前景为白色
  autocmd FileType verilog highlight PmenuSel ctermbg=red ctermfg=white
-
+ highlight PmenuSel ctermbg=red ctermfg=white
 " 设置滚动条背景为浅灰色
  autocmd FileType verilog highlight PmenuSbar ctermbg=lightgray
-
+ highlight PmenuSbar ctermbg=lightgray
 " 设置滚动条的滚动指示部分为深灰色
  autocmd FileType verilog highlight PmenuThumb ctermbg=darkgray
+ highlight PmenuThumb ctermbg=darkgray
 "---------------------------------------------------------------------------
