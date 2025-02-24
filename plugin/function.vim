@@ -1,12 +1,12 @@
 function! Annotate() 
     let l = &filetype
-    if l =='cpp' || l == 'h' || l == 'json' || l =='verilog' || l =='c' || l == 'scala'
+    if l =='cpp' || l == 'h' || l == 'json' || l =='verilog' || l =='c' || l == 'scala' || l == 'sbt'
         if getline('.')[col('.')-1] == '/' || getline('.')[col('.')] == '/'
             call feedkeys("xx",'n')
         else 
             call feedkeys("i//\<ESC>",'n')
         endif
-    elseif l == 'conf' || l == 'fish'
+    elseif l == 'conf' || l == 'fish' || l == 'yaml'
         if getline('.')[col('.')-1] == '#'
             call feedkeys("x",'n')
         else 
@@ -85,12 +85,44 @@ function! Window()
         echo "open"
         if &filetype == 'verilog'
             execute 'cgetfile' '/tmp/verilator_output.txt'  
+            copen 
+            redraw!
+        else
+            let diags = get(b:, 'coc_diagnostic_info', {})
+              " 如果诊断信息为空或所有计数均为 0，则不打开
+            if empty(diags) || (get(diags, 'error', 0) == 0 &&
+                    \ get(diags, 'warning', 0) == 0 &&
+                    \ get(diags, 'information', 0) == 0 &&
+                    \ get(diags, 'hint', 0) == 0)
+                redraw!
+                echo "当前无诊断信息。"
+            else 
+                let diag_win = 0
+                "遍历所有窗口
+                  for w in range(1, winnr('$'))
+                    " 检查窗口缓冲区的 filetype 是否为 CocList
+                    if getbufvar(winbufnr(w), '&filetype') ==# 'CocList'
+                      " 进一步判断该缓冲区名称中是否包含 "diagnostics"
+                      if bufname(winbufnr(w)) =~? 'diagnostics'
+                        let diag_win = w
+                        break
+                      endif
+                    endif
+                  endfor
+                  if diag_win > 0
+                    " 如果找到了 diagnostics 窗口，则关闭它
+                    execute diag_win . "wincmd c"
+                    echo close
+                  else
+                    " 否则打开 diagnostics 列表
+                    execute 'CocList --normal diagnostics'
+                    echo open
+                  endif
+                endif
+            endif
         endif
-        copen 
-        redraw!
-    endif
-endfunction       
-
+    endfunction       
+    
 function! JumpToClosingParen(mode)
   let line = getline('.')
   let col = col('.')
